@@ -1,32 +1,16 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <router-view />
+    <h1>ash的卡和肯定会</h1>
+    <i class="iconfont icon-shouye "></i>
+    <van-button type="primary">vant组件的可以使用 unplugin-vue-components 插件，它可以自动引入组件，并按需引入组件的样式</van-button>
   </div>
 </template>
+<script>
+export default {
+  name: 'App'
 
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
+</script>
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="less" scoped></style>
