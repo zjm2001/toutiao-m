@@ -1,6 +1,6 @@
 import axios from 'axios'
 const request = axios.create({
-  baseURL: 'http://toutiao.itheima.net/'
+  baseURL: 'http://toutiao.itheima.net'
 })
 
 // 请求拦截器

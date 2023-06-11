@@ -70,3 +70,12 @@
 .icon-zuopin:before {
   content: "\e614";
 }
+body {
+  background-color: #f5f7f9;
+}
+.page-nav-bar {
+  background-color: #2892ff;
+}
+.page-nav-bar .van-nav-bar__title {
+  color: #fff;
+}
