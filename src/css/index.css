@@ -1,7 +1,7 @@
 @font-face {
   font-family: "iconfont";
   /* Project id 4114859 */
-  src: url('//at.alicdn.com/t/c/font_4114859_8ii47zqsuyd.woff2?t=1686366109075') format('woff2'), url('//at.alicdn.com/t/c/font_4114859_8ii47zqsuyd.woff?t=1686366109075') format('woff'), url('//at.alicdn.com/t/c/font_4114859_8ii47zqsuyd.ttf?t=1686366109075') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_4114859_oj6og11hqqk.woff2?t=1686454249975') format('woff2'), url('//at.alicdn.com/t/c/font_4114859_oj6og11hqqk.woff?t=1686454249975') format('woff'), url('//at.alicdn.com/t/c/font_4114859_oj6og11hqqk.ttf?t=1686454249975') format('truetype');
 }
 .iconfont {
   font-family: "iconfont" !important;
@@ -9,6 +9,9 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.icon-shipin:before {
+  content: "\e615";
 }
 .icon-shouye:before {
   content: "\e601";
@@ -72,9 +75,10 @@
 }
 body {
   background-color: #f5f7f9;
+  color: #3f3f3f;
 }
 .page-nav-bar {
-  background-color: #2892ff;
+  background-color: #2892ff !important;
 }
 .page-nav-bar .van-nav-bar__title {
   color: #fff;

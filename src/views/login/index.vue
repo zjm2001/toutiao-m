@@ -1,36 +1,36 @@
 <template>
-    <div class="login">
-        <!-- 导航栏 -->
-        <van-nav-bar class="page-nav-bar" title="登录" />
-        <!-- form表单 -->
-        <van-form @submit="onSubmit" ref="loginFrom">
-            <!-- 输入手机号，调起手机号键盘 -->
-            <van-field v-model="user.mobile"  name="mobile" placeholder="请输入手机号"
-            :rules="userRules.mobile"
-            type="number"
-            maxlength="11">
-                <!-- 使用插槽配置图标 -->
-                <template #left-icon>
-                    <i class="iconfont icon-wode"></i>
-                </template>
-            </van-field>
-            <van-field v-model="user.code"  name="code" placeholder="请输入验证码"
-            :rules="userRules.code"
-            type="number"
-            maxlength="6">
-                <template #left-icon>
-                    <i class="iconfont icon-yanzhengma" ></i>
-                </template>
-                <template #button>
-                  <van-count-down :time="1000*10*6"  format="ss s" v-if="isBtnShow" @finish="isBtnShow=false"/>
-                    <van-button class="btn-bg" round size="small" v-else type="default" native-type="button" @click="onSend">发送验证码</van-button>
-                </template>
-            </van-field>
-            <div style="margin: 16px;">
-                <van-button block type="info" native-type="submit" class="tj-btn">登录</van-button>
-            </div>
-        </van-form>
-    </div>
+  <div class="login">
+    <!-- 导航栏 -->
+    <van-nav-bar class="page-nav-bar" title="登录">
+      <template #left>
+        <van-icon name="arrow-left" class="iconff" @click="$router.back()" />
+      </template>
+    </van-nav-bar>
+    <!-- form表单 -->
+    <van-form @submit="onSubmit" ref="loginFrom">
+      <!-- 输入手机号，调起手机号键盘 -->
+      <van-field v-model="user.mobile" name="mobile" placeholder="请输入手机号" :rules="userRules.mobile" type="number"
+        maxlength="11">
+        <!-- 使用插槽配置图标 -->
+        <template #left-icon>
+          <i class="iconfont icon-wode"></i>
+        </template>
+      </van-field>
+      <van-field v-model="user.code" name="code" placeholder="请输入验证码" :rules="userRules.code" type="number" maxlength="6">
+        <template #left-icon>
+          <i class="iconfont icon-yanzhengma"></i>
+        </template>
+        <template #button>
+          <van-count-down :time="1000 * 10 * 6" format="ss s" v-if="isBtnShow" @finish="isBtnShow = false" />
+          <van-button class="btn-bg" round size="small" v-else type="default" native-type="button"
+            @click="onSend">发送验证码</van-button>
+        </template>
+      </van-field>
+      <div style="margin: 16px;">
+        <van-button block type="info" native-type="submit" class="tj-btn">登录</van-button>
+      </div>
+    </van-form>
+  </div>
 </template>
 
 <script>
@@ -57,7 +57,7 @@ export default {
   methods: {
     // 这是表单提交事件
 
-    async  onSubmit () {
+    async onSubmit () {
       // 获取表单数据验证表单数据
 
       const user = this.user
@@ -69,6 +69,8 @@ export default {
       try {
         const { data } = await login(user)
         this.$toast.success('登录成功')
+        // 登录成功跳转
+        this.$router.back()
         // console.log(data)
         this.$store.commit('setUser', data.data)
       } catch (err) {
@@ -109,19 +111,27 @@ export default {
 
 <style scoped lang="less">
 .iconfont {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .btn-bg {
-    background-color: #ededed;
-    width: 100px;
-    height: 22px;
-    text-align: center;
-    line-height: 32px;
+  background-color: #ededed;
+  width: 100px;
+  height: 22px;
+  text-align: center;
+  line-height: 32px;
 }
-.tj-btn{
+
+.tj-btn {
   background-color: #66b1ff;
   border: 0;
   border-radius: 5px;
+}
+
+.login {
+  .iconff {
+    color: #fff;
+    font-size: 16px;
+  }
 }
 </style>
