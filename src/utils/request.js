@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '@/store/index.js'
 const request = axios.create({
-  baseURL: 'http://toutiao.itheima.net'
+  baseURL: 'http://toutiao.itheima.net/'
   // baseURL: 'http://ttapi.research.itcast.cn'
 })
 

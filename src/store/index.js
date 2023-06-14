@@ -7,8 +7,7 @@ const tokenkey = 'TOUTIAO'
 export default new Vuex.Store({
   state: {
     // 一个对象用来存储当前登录用户信息(token等)
-    user: getItem(tokenkey),
-    active: getItem('active')
+    user: getItem(tokenkey)
   },
   mutations: {
     setUser (state, data) {

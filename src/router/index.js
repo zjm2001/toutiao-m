@@ -11,11 +11,12 @@ const routes = [
   },
   {
     path: '/',
-    // name: 'layout',
+    name: 'layout',
     component: () => import('@/views/layout/index.vue'),
+    redirect: '/home',
     children: [
       {
-        path: '', // 留空默认子路由只能有一个
+        path: '/home', // 留空默认子路由只能有一个
         name: 'home',
         component: () => import('@/views/home/index.vue')
       }, {

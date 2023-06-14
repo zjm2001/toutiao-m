@@ -1,12 +1,11 @@
 <template>
     <div>
         <!-- layout子路由出口 -->
-        <keep-alive>
-         <router-view ></router-view>
-        </keep-alive>
 
-    <van-tabbar v-model="active" @change="onChange" >
-            <van-tabbar-item   to="/">
+         <router-view ></router-view>
+
+    <van-tabbar route  >
+            <van-tabbar-item   to="/home">
                 <template #icon>
                     <i class="iconfont icon-shouye"></i>
                 </template>
@@ -38,23 +37,8 @@
 </template>
 
 <script>
-import { setItem, removeItem } from '@/utils/storage.js'
 export default {
-  name: 'layout',
-  data () {
-    return {
-      active: this.$store.state.active || 0
-    }
-  },
-  methods: {
-    // 监听改变事件
-    onChange (index) {
-      setItem('active', index)
-    }
-  },
-  beforeCreate () {
-    removeItem('active')// 初始化阶段清除存储的active放置重启问题
-  }
+  name: 'layout'
 
 }
 </script>

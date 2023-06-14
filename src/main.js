@@ -6,6 +6,7 @@ import store from './store'
 import 'vant/lib/index.css'
 // 加载全局样式
 import '@/styles/index.less'
+import '@/utils/dayjs.js'
 Vue.config.productionTip = false
 
 new Vue({
