@@ -12,53 +12,87 @@
       </template>
     </van-nav-bar>
     <!-- tab标签栏 -->
-    <van-tabs class="tabs" v-model="active" animated swipeable>
+    <van-tabs class="tabs" v-model="active" animated swipeable swipe-threshold="4">
       <van-tab :title="obj.name" v-for="obj in userChannels" :key="obj.id">
         <!-- 文章列表 -->
         <ArticleList :channels="obj"></ArticleList>
       </van-tab>
       <div slot="nav-right" class="null"> </div>
       <template #nav-right>
-        <div class="ham-btn">
+        <div class="ham-btn" @click="show = true">
           <i class="iconfont icon-gengduo"></i>
         </div>
       </template>
     </van-tabs>
+    <!-- 弹出层 -->
+    <van-popup v-model="show" closeable position="bottom" :style="{ height: '100%' }" close-icon-position="top-left">
+      <!-- 组件弹出层内容1 -->
+      <ChannelEdit :mylist="userChannels" :active="active" @update-active="upActive"></ChannelEdit>
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/user.js'
 import ArticleList from './components/ArticleList.vue'
+import ChannelEdit from './components/ChannelEdit.vue'
+import { mapState } from 'vuex'
+import { getItem } from '@/utils/storage.js'
 export default {
   name: 'home',
   components: {
-    ArticleList
+    ArticleList,
+    ChannelEdit
   },
   data () {
     return {
       active: 0, // tab栏的index
-      userChannels: []
+      userChannels: [],
+      show: false // 弹出的标签编辑的钥匙
     }
+  },
+  computed: {
+    ...mapState(['user'])
   },
   created () {
     this.loadeUserChannels()
   },
   methods: {
+    /** * 这是一个获取频道列表 */
     async loadeUserChannels () {
       try {
-        const { data } = await getUserChannels()
-        this.userChannels = data.data.channels
+        // const { data } = await getUserChannels()
+        // this.userChannels = data.data.channels
+        // 判断是否登录展示不同数据
+        let list = []
+        if (this.user) {
+          const { data } = await getUserChannels()
+          list = data.data.channels
+        } else {
+          const localList = getItem('mychannel')
+          if (localList) {
+            list = localList
+          } else {
+            const { data } = await getUserChannels()
+            list = data.data.channels
+          }
+        }
+        this.userChannels = list
       } catch (error) {
         this.$toast.fail('获取信息失败')
       }
+    },
+    /** * 这是一个子组件传值改变active */
+    upActive (index, isshow = false) {
+      this.active = index
+      this.show = isshow
     }
   }
 
 }
 </script>
 
-<style scoped lang="less">
+<style  lang="less"  scoped>
 .home {
   padding-bottom: 50px;
   padding-top: 87px;
@@ -76,8 +110,9 @@ export default {
       height: 41px;
 
     }
-    .van-tabs__wrap--scrollable{
-      position: fixed;
+
+    .van-tabs__wrap {
+      position: fixed !important;
       top: 46px;
       z-index: 1;
       left: 0;
@@ -132,7 +167,8 @@ export default {
       }
 
       .null {
-        width: 30px;
+        min-width: 100px;
+        width: 30px !important;
         height: 41px;
       }
     }
