@@ -15,6 +15,12 @@ const routes = [
     component: () => import('@/views/search/index.vue')
   },
   {
+    path: '/article/:articleId',
+    name: 'article',
+    props: true, // 开启props传参
+    component: () => import('@/views/article/index.vue')
+  },
+  {
     path: '/',
     name: 'layout',
     component: () => import('@/views/layout/index.vue'),

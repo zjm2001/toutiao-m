@@ -1,5 +1,5 @@
 <template>
-    <van-cell class="article-item">
+    <van-cell class="article-item" :to="'/article/'+article.art_id">
         <!-- 自定义title内容 -->
         <template #title>
             <div class="title van-multi-ellipsis--l2">{{ article.title }} </div>

@@ -11,6 +11,8 @@
     "axios": "^1.4.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.11.8",
+    "github-markdown-css": "^5.2.0",
+    "json-bigint": "^1.0.0",
     "vant": "2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
