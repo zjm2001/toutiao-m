@@ -35,10 +35,11 @@
         <!-- 文章内容 -->
         <div class="article-content  markdown-body" ref="article" v-html="article.content"></div>
         <van-divider>正文结束</van-divider>
+        <CommentList :source="article.art_id" @updata-totalCount="totalCount=$event" :list="commentList"></CommentList>
           <!-- 底部区域 -->
     <div class="article-bottom">
-      <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
-      <van-icon name="comment-o" info="123" color="#777" />
+      <van-button class="comment-btn" type="default" round size="small" @click="isPostShow=true">写评论</van-button>
+      <van-icon name="comment-o" :info="totalCount" color="#777" />
       <!-- <van-icon color="#777" name="star-o" /> -->
       <CollectArticle v-model="article.is_collected" :id="article.art_id" ></CollectArticle>
       <!-- <van-icon color="#777" name="good-job-o" /> -->
@@ -46,6 +47,11 @@
       <van-icon name="share" color="#777777"></van-icon>
     </div>
     <!-- /底部区域 -->
+    <!-- 弹出评论层发布评论 -->
+    <van-popup v-model="isPostShow" position="bottom"  >
+      <CommentPost :target="article.art_id" @post-success="onPostSuccess"></CommentPost>
+    </van-popup>
+    <!-- 弹出评论层 -->
       </div>
       <!-- /加载完成-文章详情 -->
 
@@ -64,7 +70,11 @@
       </div>
       <!-- /加载失败：其它未知错误（例如网络原因或服务端异常） -->
     </div>
+     <!-- 评论回复弹出层 -->
+     <van-popup v-model="isReplyShow" position="bottom"  style="height:100%"  v-if="isReplyShow">
+      <CommentReply :list="replyList" @close="isReplyShow=false"></CommentReply>
 
+    </van-popup>
   </div>
 </template>
 
@@ -74,12 +84,31 @@ import { ImagePreview } from 'vant'
 import { addFollow, deleteFollow } from '@/api/user'
 import CollectArticle from '@/components/CollectArticle.vue'
 import LikeArticle from '@/components/LikeArticle.vue'
+import CommentList from './components/CommentList.vue'
+import CommentPost from './components/CommentPost.vue'
+import CommentReply from './components/CommentReply.vue'
+import eventBus from '@/eventBus/index.js'
 
 export default {
   name: 'ArticleIndex',
+  // provide: function () {
+  //   return {
+  //     articleId: this.articleId
+  //   }
+  // },
   components: {
     CollectArticle,
-    LikeArticle
+    LikeArticle,
+    CommentList,
+    CommentPost,
+    CommentReply
+  },
+  // 给所有的后代组件提供数据
+  // 注意：不要滥用
+  provide: function () {
+    return {
+      articleId: this.articleId
+    }
   },
   props: {
     articleId: {
@@ -92,13 +121,23 @@ export default {
       article: {}, // 文章详情
       loading: true, // loading状态
       status: 0, // 状态码
-      followLoading: false
+      followLoading: false,
+      totalCount: 0,
+      isPostShow: false,
+      isReplyShow: false,
+      commentList: [],
+      replyList: {}
     }
   },
   computed: {},
   watch: {},
   created () {
     this.loadArticle()
+    eventBus.$on('onReply', (obj, bool) => {
+      // console.log(obj, bool)
+      this.isReplyShow = bool
+      this.replyList = obj
+    })
   },
   mounted () { },
   methods: {
@@ -114,6 +153,8 @@ export default {
         this.$nextTick(() => {
           this.previewImge()
         })
+        // 传递id
+        // eventBus.$emit('onArticleId', this.articleId)
       } catch (error) {
         this.loading = false
         if (error.response && error.response.status === 404) {
@@ -160,6 +201,14 @@ export default {
         }
       }
       this.followLoading = false
+    },
+    // countfn () {
+    //   console.log(this.$event)
+    // }
+    /** 发布评论完成后传递参数执行 */
+    onPostSuccess (data) {
+      this.isPostShow = false
+      this.commentList.unshift(data.new_obj)
     }
   }
 
@@ -297,6 +346,15 @@ export default {
       }
     }
   }
+  .publish-wrap {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+    }
 
+    .van-list {
+      margin-bottom: 45px;
+    }
 }
 </style>
