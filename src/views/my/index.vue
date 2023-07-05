@@ -7,7 +7,7 @@
           <span class="textname">{{userInfo.name}}</span>
         </div>
         <div class="right">
-          <van-button round type="default" size="mini">编辑资料</van-button>
+          <van-button round type="default" size="mini" to="/user/profile">编辑资料</van-button>
         </div>
       </div>
       <div class="base-status">
