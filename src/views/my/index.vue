@@ -38,7 +38,7 @@
 
     <!-- 收藏和历史 -->
     <van-grid :column-num="2" clickable class="grid-nav">
-      <van-grid-item class="grid-item">
+      <van-grid-item class="grid-item" @click="isMyCollectionsShow=true">
         <template #icon>
           <i class="iconfont icon-shoucang"></i>
         </template>
@@ -46,7 +46,7 @@
           <span class="text">收藏</span>
         </template>
       </van-grid-item>
-      <van-grid-item class="grid-item">
+      <van-grid-item class="grid-item" @click="isMyHistoriessShow=true">
         <template #icon>
           <i class="iconfont icon-lishi"></i>
         </template>
@@ -61,21 +61,38 @@
     <van-cell title="消息通知" is-link  class="cell"/>
     <van-cell title="小智同学" is-link  class="cell"/>
     <van-cell title="退出登录" clickable  class="layout"  v-if="user" @click="layout"/>
-
+  <!-- 收藏弹出层 -->
+  <van-popup v-model="isMyCollectionsShow" position="bottom" style="height:100%">
+      <MyCollections v-if="isMyCollectionsShow"  @close="isMyCollectionsShow = false" />
+    </van-popup>
+    <!-- /收藏弹出层 -->
+  <!-- 历史记录弹出层 -->
+  <van-popup v-model="isMyHistoriessShow" position="bottom" style="height:100%">
+      <MyHistories v-if="isMyHistoriessShow"  @close="isMyHistoriessShow = false" />
+    </van-popup>
+    <!-- /历史记录弹出层 -->
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import { getUserInfo } from '@/api/user'
+import MyCollections from './components/MyCollections.vue'
+import MyHistories from './components/MyHistories.vue'
 export default {
   name: 'my',
+  components: {
+    MyCollections,
+    MyHistories
+  },
   computed: {
     ...mapState(['user'])
   },
   data () {
     return {
-      userInfo: {}
+      userInfo: {},
+      isMyCollectionsShow: false,
+      isMyHistoriessShow: false
     }
   },
   created () {

@@ -83,3 +83,23 @@ export const updateUserPhoto = data => {
     data
   })
 }
+/**
+ * 获取用户收藏
+ */
+export const getCollections = params => {
+  return request({
+    method: 'get',
+    url: '/v1_0/article/collections',
+    params
+  })
+}
+/**
+ * 获取浏览历史
+ */
+export const getHistories = params => {
+  return request({
+    method: 'get',
+    url: '/v1_0/user/histories',
+    params
+  })
+}

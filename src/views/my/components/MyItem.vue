@@ -1,5 +1,5 @@
 <template>
-    <van-cell class="article-item" :to="'/article/'+article.art_id">
+    <van-cell class="my-item" :to="'/article/'+article.art_id">
         <!-- 自定义title内容 -->
         <template #title>
             <div class="title van-multi-ellipsis--l2">{{ article.title }} </div>
@@ -7,7 +7,7 @@
         <!-- 下方插槽 -->
         <template #label>
             <div class="cover-wrap" v-if="article.cover.type === 3">
-                <div class="cover-item" v-for="(img, index ) in article.cover.images" :key="index">
+                <div class="cover-item" v-for="(img, index ) in article.cover.Images" :key="index">
                     <van-image class="img-item" fit="cover" :src="img" />
                 </div>
             </div>
@@ -19,8 +19,8 @@
 
         </template>
         <!-- 一张图片位置摆放 -->
-        <van-image class="right-img" fit="cover" :src="article.cover.images[0]" slot="default"
-            v-if="article.cover.type === 1" />
+        <van-image class="right-img" fit="cover" :src="article.cover.Images[0]" slot="default"
+            v-if="article.cover.type === 1 && article.cover.Images[0]!==''" />
     </van-cell>
 </template>
 
@@ -34,13 +34,13 @@ export default {
     }
   },
   created () {
-
+    console.log(this.article.cover.Images[0])
   }
 }
 </script>
 
 <style lang="less" scoped>
-.article-item {
+.my-item {
     .title {
         font-size: 16px;
         color: #3a3a3a;
